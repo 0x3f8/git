@@ -1,11 +1,9 @@
 <?php
-  require_once('db.php');
-  require_once('functions.php');
-
-  if($_SERVER['REQUEST_METHOD'] != 'POST')
-    die("Only HTTP POST requests are allowed!");
-
+  # This require should always be first
   require_once('this_is_json.php');
+
+  require_once('db.php');
+
   restrict_page_to_users($db, $params, ['guest', 'administrator']);
 
   # TODO: Name these fields correctly once we decide what we're tracking
