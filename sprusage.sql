@@ -16,29 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `configuration`
---
-
-DROP TABLE IF EXISTS `configuration`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `configuration` (
-  `name` varchar(64) NOT NULL,
-  `value` varchar(128) NOT NULL,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `configuration`
---
-
-LOCK TABLES `configuration` WRITE;
-/*!40000 ALTER TABLE `configuration` DISABLE KEYS */;
-/*!40000 ALTER TABLE `configuration` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `reports`
 --
 
@@ -62,6 +39,31 @@ LOCK TABLES `reports` WRITE;
 /*!40000 ALTER TABLE `reports` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reports` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `uid` int(11) NOT NULL,
+  `username` varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (0,'administrator','KeepWatchingTheSkies'),(1,'guest','busyllama67');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -72,4 +74,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-13 18:29:06
+-- Dump completed on 2016-11-13 19:17:27

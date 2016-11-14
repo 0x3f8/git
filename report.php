@@ -6,8 +6,7 @@
     die("Only HTTP POST requests are allowed!");
 
   require_once('this_is_json.php');
-
-  var_dump($params);
+  restrict_page_to_users($db, $params, ['guest', 'administrator']);
 
   # TODO: Name these fields correctly once we decide what we're tracking
   $field1 = mysqli_real_escape_string($db, $params['field1']);

@@ -12,5 +12,9 @@
     reply(500, "Couldn't connect to the database!");
     exit(1);
   }
-?>
 
+  function query($db, $query) {
+    $result = mysqli_query($db, $query);
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+  }
+?>
