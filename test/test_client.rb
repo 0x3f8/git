@@ -2,7 +2,9 @@ require 'httparty'
 
 @result = HTTParty.post('http://localhost/sprusage/report.php',
   :body => {
-    :test => 'This is a test',
+    :field1 => 'value1',
+    :field2 => 'value2',
+    :field3 => 'value3',
   }.to_json,
   :headers => {
     'Content-Type' => 'application/json',
