@@ -4,7 +4,7 @@
 
   require_once('db.php');
 
-  restrict_page_to_users($db, $params, ['guest', 'administrator']);
+  restrict_page_to_users($db, $params, ['guest']);
 
   # TODO: Name these fields correctly once we decide what we're tracking
   $field1 = mysqli_real_escape_string($db, $params['field1']);

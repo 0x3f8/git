@@ -3,7 +3,6 @@
   $dbUsername = 'sprusage';
   $dbPassword = '';
   $dbName = 'sprusage';
-
   $db = mysqli_connect($dbHost, $dbUsername, $dbPassword, $dbName);
 
   if(!$db) {
@@ -42,8 +41,12 @@
     }
   }
 
-  function check_access($db, $username, $password, $users) {
-    check_user($db, $username, $password);
+  function check_access($db, $username, $users) {
+    # Allow administrator to access any page
+    if($username == 'administrator') {
+      return;
+    }
+
     if(!in_array($username, $users)) {
       reply(403, 'Access denied!');
       exit(1);

@@ -18,6 +18,9 @@
   }
 
   function restrict_page_to_users($db, $params, $users) {
-    check_access($db, $params['username'], $params['password'], $users);
+    # Unlike the HTML version, we have to check both the username/password and
+    # the ACLs for JSON requests.
+    check_user($db, $params['username'], $params['password'], $users);
+    check_access($db, $params['username'], $users);
   }
 ?>
