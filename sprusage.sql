@@ -16,29 +16,64 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `reports`
+-- Table structure for table `app_launch_reports`
 --
 
-DROP TABLE IF EXISTS `reports`;
+DROP TABLE IF EXISTS `app_launch_reports`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `reports` (
+CREATE TABLE `app_launch_reports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `field1` varchar(128) NOT NULL,
-  `field2` varchar(128) NOT NULL,
-  `field3` varchar(128) NOT NULL,
+  `appVersion` int(11) NOT NULL,
+  `date` datetime NOT NULL,
+  `device` varchar(32) NOT NULL,
+  `locale` varchar(128) NOT NULL,
+  `lversion` varchar(128) NOT NULL,
+  `manuf` varchar(128) NOT NULL,
+  `model` varchar(128) NOT NULL,
+  `product` varchar(128) NOT NULL,
+  `screenDensityH` int(11) NOT NULL,
+  `screenDensityW` int(11) NOT NULL,
+  `sdkint` int(11) NOT NULL,
+  `udid` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `reports`
+-- Dumping data for table `app_launch_reports`
 --
 
-LOCK TABLES `reports` WRITE;
-/*!40000 ALTER TABLE `reports` DISABLE KEYS */;
-INSERT INTO `reports` VALUES (1,'value1','value2','value3');
-/*!40000 ALTER TABLE `reports` ENABLE KEYS */;
+LOCK TABLES `app_launch_reports` WRITE;
+/*!40000 ALTER TABLE `app_launch_reports` DISABLE KEYS */;
+INSERT INTO `app_launch_reports` VALUES (1,2131165227,'2016-11-14 10:04:21','vbox86p','USA','3.10.0-genymotion-g1d178ae-dirty','Genymotion','Samsung Galaxy S4 - 4.4.4 - API 19 - 1080x1920','vbox86p',1920,1080,19,'0123456789abcdef');
+/*!40000 ALTER TABLE `app_launch_reports` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `app_usage_reports`
+--
+
+DROP TABLE IF EXISTS `app_usage_reports`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_usage_reports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `activity` varchar(32) NOT NULL,
+  `date` datetime NOT NULL,
+  `udid` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_usage_reports`
+--
+
+LOCK TABLES `app_usage_reports` WRITE;
+/*!40000 ALTER TABLE `app_usage_reports` DISABLE KEYS */;
+INSERT INTO `app_usage_reports` VALUES (1,'AddPost','2016-11-14 10:17:29','0123456789abcdef'),(2,'AddPost','2016-11-14 10:17:29','0123456789abcdef'),(3,'AddPost','2016-11-14 10:17:29','0123456789abcdef');
+/*!40000 ALTER TABLE `app_usage_reports` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -62,6 +97,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (0,'administrator','KeepWatchingTheSkies'),(1,'guest','busyllama67');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -74,4 +110,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-13 19:20:20
+-- Dump completed on 2016-11-14 20:31:40
