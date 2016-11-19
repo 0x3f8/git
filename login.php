@@ -6,7 +6,7 @@
   if(!isset($_POST['username']) || !isset($_POST['password'])) {
     print <<<"EOF"
 <html>
-  <p>Please log in!</p>
+  <p>You must log in to use this application!</p>
   <form method='POST'>
     <p>Username <input type='text' name='username' /></p>
     <p>Password <input type='text' name='password' /></p>
@@ -27,5 +27,7 @@ EOF;
     ]));
 
     setcookie('AUTH', bin2hex($auth));
+
+    header('Location: index.php?msg=Successfully%20logged%20in!');
   }
 ?>
