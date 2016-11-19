@@ -62,7 +62,7 @@ CREATE TABLE `app_usage_reports` (
   `date` date NOT NULL,
   `udid` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +71,34 @@ CREATE TABLE `app_usage_reports` (
 
 LOCK TABLES `app_usage_reports` WRITE;
 /*!40000 ALTER TABLE `app_usage_reports` DISABLE KEYS */;
+INSERT INTO `app_usage_reports` VALUES (14,'activity1','2016-11-18','abcdefgh'),(15,'activity2','2016-11-18','CUT_TEXT'),(16,'CUT_TEXT','2016-11-18','udid1234'),(17,'SELECT_ALL','2016-11-18','udid1234'),(18,'DELETE_FILE','2016-11-18','udid1234'),(19,'SELECT_ALL','2016-11-18','udid4321'),(20,'EXIT','2016-11-18','udid4321'),(21,'CUT_TEXT','2016-11-17','udid1234'),(22,'USE_VIM','2016-11-17','udid1234'),(23,'DELETE_VIM','2016-11-17','udid1234'),(24,'USE_EMACS','2016-11-17','udid1234'),(25,'RUN_MALWARE','2016-11-17','udid4321'),(26,'RUN_MALWARE_AGAIN','2016-11-17','udid4321'),(27,'TRY_TO_DELETE_MALWARE','2016-11-17','udid4321'),(28,'CUT_TEXT','2016-11-18','udid1234'),(29,'SELECT_ALL','2016-11-18','udid1234'),(30,'SELECT_ALL','2016-11-18','udid4321'),(31,'EXIT','2016-11-18','udid4321'),(32,'CUT_TEXT','2016-11-17','udid1234'),(33,'USE_VIM','2016-11-17','udid1234'),(34,'DELETE_VIM','2016-11-17','udid1234'),(35,'USE_EMACS','2016-11-17','udid1234'),(36,'RUN_MALWARE','2016-11-17','udid4321'),(37,'RUN_MALWARE_AGAIN','2016-11-17','udid4321'),(38,'TRY_TO_DELETE_MALWARE','2016-11-17','udid4321');
 /*!40000 ALTER TABLE `app_usage_reports` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reports`
+--
+
+DROP TABLE IF EXISTS `reports`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reports` (
+  `id` varchar(36) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `description` text,
+  `outfile` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reports`
+--
+
+LOCK TABLES `reports` WRITE;
+/*!40000 ALTER TABLE `reports` DISABLE KEYS */;
+INSERT INTO `reports` VALUES ('d469c237-b828-4d4d-bce6-d579b0873f2b','report-d469c237-b828-4d4d-bce6-d579b0873f2b','Report generated @ 2016-11-18 22:15:06','out/d469c237-b828-4d4d-bce6-d579b0873f2b'),('d71a8856-2522-410d-9282-3af3ac620ff3','report-d71a8856-2522-410d-9282-3af3ac620ff3','Report generated @ 2016-11-18 22:14:53','out/d71a8856-2522-410d-9282-3af3ac620ff3');
+/*!40000 ALTER TABLE `reports` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -95,6 +122,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (0,'administrator','KeepWatchingTheSkies'),(1,'guest','busyllama67');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -107,4 +135,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-14 20:33:53
+-- Dump completed on 2016-11-18 22:18:55
