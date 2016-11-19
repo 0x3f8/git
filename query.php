@@ -2,6 +2,7 @@
   # This should be the first require
   require_once('this_is_html.php');
   require_once('db.php');
+  require_once('uuid.php');
 
   restrict_page_to_users($db, ['guest']);
 
@@ -20,15 +21,16 @@
       $out .= str_pad($header, 15) . ' ';
     }
     $out .= "\n";
+    foreach($headers as $header) {
+      $divider = str_repeat('-', strlen($header));
+      $out .= str_pad($divider, 15) . ' ';
+    }
+    $out .= "\n";
 
     /* Print rows */
     foreach($rows as $row) {
       foreach($headers as $header) {
-        if($header == 'date') {
-          $out .= str_pad(substr($row[$header], 0, 10), 15);
-        } else {
-          $out .= str_pad($row[$header], 15) . ' ';
-        }
+        $out .= str_pad($row[$header], 15) . ' ';
       }
       $out .= "\n";
     }
@@ -55,7 +57,7 @@
       });
       $('#aftercontent').html('<input type="hidden" name="type" value="' + type + '" />');
       $('#aftercontent').append('<p><button type="button" onClick="add_' + type + '();">(add field)</button></p>');
-      $('#aftercontent').append('<p><input type="submit" value="Query!" /></p>');
+      $('#aftercontent').append('<p><input type="submit" value="Query!" /> <label><input type="checkbox" name="save"> Save results?</input></p>');
     }
   </script>
 <div id='launch_template' style='display: None'>
@@ -107,7 +109,7 @@
 <p><label><input type='radio' name='type' onChange='reset("launch");'> Launch reports</label></p>
 <p><label><input type='radio' name='type' onChange='reset("usage");'> Usage reports</label></p>
 <hr />
-<form method='GET'>
+<form method='POST'>
   <p><div id='content'></div></p>
   <p><div id='aftercontent'></div></p>
   <hr />
@@ -115,10 +117,11 @@
 
 <?php
 
-  if(isset($_REQUEST['field'])) {
-    $fields = $_REQUEST['field'];
-    $modifiers = $_REQUEST['modifier'];
-    $values = $_REQUEST['value'];
+  if(isset($_REQUEST['date'])) {
+    $fields = $modifiers = $values = [];
+    if(isset($_REQUEST['field']))    { $fields    = $_REQUEST['field']; }
+    if(isset($_REQUEST['modifier'])) { $modifiers = $_REQUEST['modifier']; }
+    if(isset($_REQUEST['value']))    { $values    = $_REQUEST['value']; }
     $date = $_REQUEST['date'];
 
     if(sizeof($fields) !== sizeof($modifiers) || sizeof($modifiers) !== sizeof($values)) {
@@ -170,7 +173,7 @@
     $query = "SELECT * ";
     $query .= "FROM `app_" . $type . "_reports` ";
     $query .= "WHERE " . join(' AND ', $where) . " ";
-    $query .= "LIMIT 0, 1000";
+    $query .= "LIMIT 0, 100";
 
     print $query;
     $result = mysqli_query($db, $query);
@@ -180,8 +183,23 @@
     }
 
     $out = format_sql(mysqli_fetch_all($result, MYSQLI_ASSOC));
+    print "<pre>" . htmlentities($out) . "</pre>";
 
-    print "<pre>$out</pre>";
+    if(isset($_REQUEST['save'])) {
+      $id = gen_uuid();
+      $name = "report-$id";
+      $description = "Report generated @ " . date('Y-m-d H:i:s');
+      $outfile = "out/$id";
+      file_put_contents($outfile, $out);
+      mysqli_query($db, "INSERT INTO `reports`
+        (`id`, `name`, `description`, `outfile`)
+      VALUES
+        ('$id', '$name', '$description', '$outfile')
+        ");
+
+      print "<p><strong>Saved your report as <a href='view.php?id=$id'>$name</a></strong></p>";
+      print "<p>Please bookmark that link if you want to keep it!</p>";
+    }
   }
   require_once('footer.php');
 ?>
