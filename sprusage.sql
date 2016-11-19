@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `app_launch_reports`;
 CREATE TABLE `app_launch_reports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `appVersion` int(11) NOT NULL,
-  `date` datetime NOT NULL,
+  `date` date NOT NULL,
   `device` varchar(32) NOT NULL,
   `locale` varchar(128) NOT NULL,
   `lversion` varchar(128) NOT NULL,
@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS `app_usage_reports`;
 CREATE TABLE `app_usage_reports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `activity` varchar(32) NOT NULL,
-  `date` datetime NOT NULL,
+  `date` date NOT NULL,
   `udid` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
