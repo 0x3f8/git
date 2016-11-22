@@ -1,7 +1,5 @@
 # Installation
-* Install PHP/MySQL/etc
+* Install Linux/ApachePHP/MySQL (this should work fine under nginx and other systems)
 ** Make sure you install `php-mysql` and `php-mcrypt`
 * Create a database using `sprusage.sql`
-** Create a MySQL user with full access to the database
-** Create a MySQL user with ONLY read access to ONLY the table `sprusage.reports` (eg, `GRANT SELECT ON sprusage.reports TO 'rouser'@'localhost'`)
-** Put the accounts in `db.php`
+** Create a MySQL user with full access to that database, and put its account in the variables on top of `db.php`
