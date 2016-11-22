@@ -7,6 +7,36 @@
 
   require_once('header.php');
 
+  function format_sql($rows) {
+    if(sizeof($rows) == 0) {
+      return 'No results!';
+    }
+
+    $out = '';
+
+    /* Print headers */
+    $headers = array_keys($rows[0]);
+    foreach($headers as $header) {
+      $out .= str_pad($header, 15) . ' ';
+    }
+    $out .= "\n";
+    foreach($headers as $header) {
+      $divider = str_repeat('-', strlen($header));
+      $out .= str_pad($divider, 15) . ' ';
+    }
+    $out .= "\n";
+
+    /* Print rows */
+    foreach($rows as $row) {
+      foreach($headers as $header) {
+        $out .= str_pad($row[$header], 15) . ' ';
+      }
+      $out .= "\n";
+    }
+
+    return $out;
+  }
+
   if(!isset($_GET['id'])) {
 ?>
     <form>
@@ -24,6 +54,10 @@
     }
 
     $row = mysqli_fetch_assoc($result);
+    if(!$row) {
+      reply(404, "Report not found!");
+      die();
+    }
 ?>
   <ul>
     <li>ID: <?= htmlentities($row['id']); ?></li>
@@ -33,7 +67,20 @@
 
   <p>Output:</p>
   <hr />
-  <pre><?= htmlentities(file_get_contents($row['outfile'])); ?></pre>
+  <pre>
+  Query: <?= $row['query'] ?>
+
+
+<?php
+    $result = mysqli_query($db, $row['query']);
+    if(!$result) {
+      reply(500, "Query error: " . mysqli_error($db));
+      die();
+    }
+    $out = format_sql(mysqli_fetch_all($result, MYSQLI_ASSOC));
+    print $out;
+?>
+  </pre>
   <hr />
 <?php
   }

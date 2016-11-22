@@ -37,7 +37,7 @@ CREATE TABLE `app_launch_reports` (
   `sdkint` int(11) NOT NULL,
   `udid` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +46,7 @@ CREATE TABLE `app_launch_reports` (
 
 LOCK TABLES `app_launch_reports` WRITE;
 /*!40000 ALTER TABLE `app_launch_reports` DISABLE KEYS */;
+INSERT INTO `app_launch_reports` VALUES (1,2131165227,'2016-11-14','vbox86p','USA','3.10.0-genymotion-g1d178ae-dirty','Genymotion','Samsung Galaxy S4 - 4.4.4 - API 19 - 1080x1920','vbox86p',1920,1080,19,'0123456789abcdef'),(2,2,'2015-12-31','3','4','5','6','7','8',9,10,11,'1');
 /*!40000 ALTER TABLE `app_launch_reports` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +63,7 @@ CREATE TABLE `app_usage_reports` (
   `date` date NOT NULL,
   `udid` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,6 +72,7 @@ CREATE TABLE `app_usage_reports` (
 
 LOCK TABLES `app_usage_reports` WRITE;
 /*!40000 ALTER TABLE `app_usage_reports` DISABLE KEYS */;
+INSERT INTO `app_usage_reports` VALUES (14,'activity1','2016-11-18','abcdefgh'),(15,'activity2','2016-11-18','CUT_TEXT'),(16,'CUT_TEXT','2016-11-18','udid1234'),(17,'SELECT_ALL','2016-11-18','udid1234'),(18,'DELETE_FILE','2016-11-18','udid1234'),(19,'SELECT_ALL','2016-11-18','udid4321'),(20,'EXIT','2016-11-18','udid4321'),(21,'CUT_TEXT','2016-11-17','udid1234'),(22,'USE_VIM','2016-11-17','udid1234'),(23,'DELETE_VIM','2016-11-17','udid1234'),(24,'USE_EMACS','2016-11-17','udid1234'),(25,'RUN_MALWARE','2016-11-17','udid4321'),(26,'RUN_MALWARE_AGAIN','2016-11-17','udid4321'),(27,'TRY_TO_DELETE_MALWARE','2016-11-17','udid4321'),(28,'CUT_TEXT','2016-11-18','udid1234'),(29,'SELECT_ALL','2016-11-18','udid1234'),(30,'SELECT_ALL','2016-11-18','udid4321'),(31,'EXIT','2016-11-18','udid4321'),(32,'CUT_TEXT','2016-11-17','udid1234'),(33,'USE_VIM','2016-11-17','udid1234'),(34,'DELETE_VIM','2016-11-17','udid1234'),(35,'USE_EMACS','2016-11-17','udid1234'),(36,'RUN_MALWARE','2016-11-17','udid4321'),(37,'RUN_MALWARE_AGAIN','2016-11-17','udid4321'),(38,'TRY_TO_DELETE_MALWARE','2016-11-17','udid4321'),(39,'AddPost','2016-11-14','0123456789abcdef'),(40,'13','2016-12-31','12');
 /*!40000 ALTER TABLE `app_usage_reports` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +87,7 @@ CREATE TABLE `reports` (
   `id` varchar(36) NOT NULL,
   `name` varchar(64) NOT NULL,
   `description` text,
-  `outfile` varchar(64) NOT NULL,
+  `query` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -120,6 +122,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (0,'administrator','KeepWatchingTheSkies'),(1,'guest','busyllama67');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -132,4 +135,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-18 22:16:18
+-- Dump completed on 2016-11-21 20:57:13

@@ -189,13 +189,16 @@
       $id = gen_uuid();
       $name = "report-$id";
       $description = "Report generated @ " . date('Y-m-d H:i:s');
-      $outfile = "out/$id";
-      file_put_contents($outfile, $out);
-      mysqli_query($db, "INSERT INTO `reports`
-        (`id`, `name`, `description`, `outfile`)
+      $result = mysqli_query($db, "INSERT INTO `reports`
+        (`id`, `name`, `description`, `query`)
       VALUES
-        ('$id', '$name', '$description', '$outfile')
+        ('$id', '$name', '$description', '" . mysqli_real_escape_string($db, $query) . "')
         ");
+
+      if(!$result) {
+        reply(500, "Error saving report: " . mysqli_error($db));
+        die();
+      }
 
       print "<p><strong>Saved your report as <a href='view.php?id=$id'>$name</a></strong></p>";
       print "<p>Please bookmark that link if you want to keep it!</p>";
