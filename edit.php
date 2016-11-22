@@ -31,7 +31,7 @@
     # Update the row with the new values
     $set = [];
     foreach($row as $name => $value) {
-      print "Checking for $name...<br>";
+      print "Checking for " . htmlentities($name) . "...<br>";
       if(isset($_GET[$name])) {
         print 'Yup!<br>';
         $set[] = "`$name`='" . mysqli_real_escape_string($db, $_GET[$name]) . "'";
