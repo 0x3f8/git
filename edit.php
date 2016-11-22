@@ -41,7 +41,7 @@
     $query = "UPDATE `reports` " .
       "SET " . join($set, ', ') . ' ' .
       "WHERE `id`='" . mysqli_real_escape_string($db, $_REQUEST['id']) . "'";
-    print $query;
+    print htmlentities($query);
 
     $result = mysqli_query($db, $query);
     if(!$result) {
