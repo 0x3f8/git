@@ -72,12 +72,7 @@
 
 
 <?php
-    $result = mysqli_query($db, $row['query']);
-    if(!$result) {
-      reply(500, "Query error: " . mysqli_error($db));
-      die();
-    }
-    $out = format_sql(mysqli_fetch_all($result, MYSQLI_ASSOC));
+    $out = format_sql(query($db, $row['query']));
     print $out;
 ?>
   </pre>

@@ -12,7 +12,20 @@
 
   function query($db, $query) {
     $result = mysqli_query($db, $query);
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    if(!$result) {
+      reply(400, "Database error! " . mysqli_error($db));
+      die();
+    }
+
+
+    $results = [];
+
+    while($row = mysqli_fetch_assoc($result)) {
+      $results[] = $row;
+    }
+
+    return $results;
   }
 
   function check_user($db, $username, $password) {

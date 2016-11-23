@@ -176,13 +176,7 @@
     $query .= "LIMIT 0, 100";
 
     print $query;
-    $result = mysqli_query($db, $query);
-    if(!$result) {
-      reply(400, "Database error! " . mysqli_error($db));
-      die();
-    }
-
-    $out = format_sql(mysqli_fetch_all($result, MYSQLI_ASSOC));
+    $out = format_sql(query($db, $query));
     print "<pre>" . htmlentities($out) . "</pre>";
 
     if(isset($_REQUEST['save'])) {
