@@ -7,114 +7,122 @@
   restrict_page_to_users($db, ['guest']);
 
   require_once('header.php');
-
-  function format_sql($rows) {
-    if(sizeof($rows) == 0) {
-      return 'No results!';
-    }
-
-    $out = '';
-
-    /* Print headers */
-    $headers = array_keys($rows[0]);
-    foreach($headers as $header) {
-      $out .= str_pad($header, 15) . ' ';
-    }
-    $out .= "\n";
-    foreach($headers as $header) {
-      $divider = str_repeat('-', strlen($header));
-      $out .= str_pad($divider, 15) . ' ';
-    }
-    $out .= "\n";
-
-    /* Print rows */
-    foreach($rows as $row) {
-      foreach($headers as $header) {
-        $out .= str_pad($row[$header], 15) . ' ';
-      }
-      $out .= "\n";
-    }
-
-    return $out;
-  }
-?>
+  ?>
 
   <script>
     count = 0;
-    function add_launch() {
-      $('#content').append($('#launch_template').html());
-      return false;
-    }
-    function add_usage() {
-      $('#content').append($('#usage_template').html());
-      return false;
-    }
-    function reset(type) {
-      $('#content').html('');
-      $('#content').append('<p>Date: <input type="text" name="date" id="date" value="<?= date('Y-m-d'); ?>"/></p>');
-      $('#date').datepicker({
-        dateFormat:"yy-mm-dd",
+    function add_query_filter(type) {
+      // clone the query
+      var new_query_piece = $('#query_piece').clone().attr('id','').removeClass('hidden')
+      // set the type in the hidden field
+      $('form input[name=type]').attr('value', type);
+
+      // get the right fields for the type
+      if (type === 'launch') fields = ['udid','appVersion','device','locale','lversion','manuf','model','product','screenDensityH','screenDensityW','sdkint'];
+      if (type === 'usage') fields = ['udid','activity'];
+
+      // add the fields
+      fields.forEach(function(f){
+        new_query_piece.find('select[name^=field]').append('<option value="' + f + '">' + f + '</option>');
       });
-      $('#aftercontent').html('<input type="hidden" name="type" value="' + type + '" />');
-      $('#aftercontent').append('<p><button type="button" onClick="add_' + type + '();">(add field)</button></p>');
-      $('#aftercontent').append('<p><input type="submit" value="Query!" /> <label><input type="checkbox" name="save"> Save results?</input></p>');
+
+      // add the new element
+      new_query_piece.appendTo('form #query_pieces');
+
+      // fire up the tooltips
+      $("[data-toggle='tooltip']").tooltip();
+
+      // do notthing in the callser
+      return false
+    }
+
+    function select_query_type(type) {
+      $('#content').html($('#content_template').html());
+      $('#content').find('[name=type]').attr('value', type)
+      $('#content #date').datepicker({ dateFormat: 'yy-mm-dd' });
+      $('form').removeClass('hidden')
+
+      // highligh the selected query type
+      $('.query-type').find('.active').removeClass('active');
+      $('.query-type-' + type).addClass('active');
+
+      // fire up the tooltips
+      $("[data-toggle='tooltip']").tooltip();
+
+      // load the first selector
+      add_query_filter(type)
+    }
+
+    function removeFilterRow(elem) {
+      $(elem).parents('.query-piece').remove();
     }
   </script>
-<div id='launch_template' style='display: None'>
-  <div style='display: block'>
-    <select name='field[]'>
-      <option name='udid' selected>udid</option>
-      <option name='appVersion'>appVersion</option>
-      <option name='device'>device</option>
-      <option name='locale'>locale</option>
-      <option name='lversion'>lversion</option>
-      <option name='manuf'>manuf</option>
-      <option name='model'>model</option>
-      <option name='product'>product</option>
-      <option name='screenDensityH'>screenDensityH</option>
-      <option name='screenDensityW'>screenDensityW</option>
-      <option name='sdkint'>sdkint</option>
-    </select>
-    <select name='modifier[]'>
-      <option value='eq' selected>==</option>
-      <option value='lt'>&lt;</option>
-      <option value='gt'>&gt;</option>
-      <option value='le'>&le;</option>
-      <option value='ge'>&ge;</option>
-      <option value='ne'>&ne;</option>
-    </select>
-    <input type='text' name='value[]'/>
-  </div>
-</div>
-<div id='usage_template' style='display: None'>
-  <div style='display: block'>
-    <select name='field[]'>
-      <option name='udid' selected>udid</option>
-      <option name='activity'>activity</option>
-    </select>
-    <select name='modifier[]'>
-      <option value='eq' selected>==</option>
-      <option value='lt'>&lt;</option>
-      <option value='gt'>&gt;</option>
-      <option value='le'>&le;</option>
-      <option value='ge'>&ge;</option>
-      <option value='ne'>&ne;</option>
-    </select>
-    <input type='text' name='value[]'/>
-  </div>
-</div>
-<p>Welcome to the query engine!</p>
 
-<p>Which would you like to query?</p>
-<p><label><input type='radio' name='type' onChange='reset("launch");'> Launch reports</label></p>
-<p><label><input type='radio' name='type' onChange='reset("usage");'> Usage reports</label></p>
-<hr />
-<form method='POST'>
-  <p><div id='content'></div></p>
-  <p><div id='aftercontent'></div></p>
-  <hr />
-</form>
 
+  <div class="container">
+    <div class="row">
+      <div class="h2">Welcome to the query engine!</div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="pull-right h4">Which would you like to query?</div>
+      </div>
+
+      <ul class="query-type nav nav-pills col-xs-6">
+        <li class="query-type-launch"><a href="#" onClick="select_query_type('launch');">Launch</a></li>
+        <li class="query-type-usage"><a href="#" onClick="select_query_type('usage');">Usage</a></li>
+      </ul>
+
+    </div>
+
+    <form method="POST" class="form-horizontal well hidden">
+      <div id="content"></div>
+    </form>
+
+    <div id="content_template" class="hidden">
+
+      <div class="form-group">
+        <label for="date" class="control-label col-xs-2 col-md-4">Date</label>
+        <div class="col-xs-6 col-sm-3">
+          <input type="text" class="form-control" name="date" id="date" value="<?= date('Y-m-d'); ?>"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="hidden" name="type" value="" />
+        <div class="float-right col-xs-2 col-md-4">
+          <div class="glyphicon glyphicon-plus-sign pull-right text-success" style="font-size: large;" data-toggle="tooltip" data-placement="left" title="Add Filter Field" onClick="add_query_filter($(this).closest('form').find('[name=type]').val());"></div>
+          <!-- <button type="button" class="btn btn-primary pull-right" onClick="add_query_filter($(this).closest('form').find('[name=type]').val());">Add Field</button> -->
+        </div>
+        <div id="query_pieces" class="col-xs-10 col-md-8"></div>
+      </div>
+
+      <div class="form-check form-group">
+        <label class="control-label col-xs-2 col-md-4">Save Query?</label>
+        <div class="col-xs-6 col-sm-3">
+          <input type="checkbox" name="save" id="save" class="form-check-input" />
+        </div>
+      </div>
+
+      <div class="form-check form-group">
+        <button type="submit" class="btn btn-primary col-xs-offset-5 col-md-offset-5">Run Query</button>
+      </div>
+    </div>
+
+    <div id="query_piece" class="hidden query-piece">
+      <select name="field[]" class="form-control" style="width: auto; display: inline-block;"></select>
+      <select name="modifier[]" class="form-control" style="width: auto; display: inline-block;">
+        <option value="eq" selected>=</option>
+        <option value="lt">&lt;</option>
+        <option value="gt">&gt;</option>
+        <option value="le">&le;</option>
+        <option value="ge">&ge;</option>
+        <option value="ne">&ne;</option>
+      </select>
+      <input type="text" name="value[]" class="form-control" style="width: auto; display: inline-block;"/>
+      <div class="glyphicon glyphicon-remove-sign text-danger" style="font-size: large;" data-toggle="tooltip" data-placement="right" title="Remove This Filter Field" onClick="removeFilterRow(this)"></div>
+    </div>
 <?php
 
   if(isset($_REQUEST['date'])) {
@@ -175,10 +183,6 @@
     $query .= "WHERE " . join(' AND ', $where) . " ";
     $query .= "LIMIT 0, 100";
 
-    print $query;
-    $out = format_sql(query($db, $query));
-    print "<pre>" . htmlentities($out) . "</pre>";
-
     if(isset($_REQUEST['save'])) {
       $id = gen_uuid();
       $name = "report-$id";
@@ -194,9 +198,26 @@
         die();
       }
 
-      print "<p><strong>Saved your report as <a href='view.php?id=$id'>$name</a></strong></p>";
-      print "<p>Please bookmark that link if you want to keep it!</p>";
+      ?>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Report Saved!</h3>
+        </div>
+        <div class="panel-body">
+          <p>Saved your report as <a href='view.php?id=<?= $id ?>'><?= $name; ?></a></p>
+          <p>Please bookmark that link if you want to keep it!</p>
+        </div>
+      </div>
+      <?php
+
+      //print "<p><strong>Saved your report as <a href='view.php?id=$id'>$name</a></strong></p>";
+      //print "<p>Please bookmark that link if you want to keep it!</p>";
     }
+
+    //print "<div class='well'><strong>Query:</strong> $query</div>";
+    
+    format_sql(query($db, $query));
   }
+
   require_once('footer.php');
 ?>

@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: sprusage
 -- ------------------------------------------------------
--- Server version	5.7.11-0ubuntu6
+-- Server version 5.7.11-0ubuntu6
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -114,6 +114,18 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `audio`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `audio` (
+  `id` varchar(36) NOT NULL,
+  `username` varchar(32) NOT NULL,
+  `filename` varchar(32) NOT NULL,
+  `mp3` MEDIUMBLOB NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 --
 -- Dumping data for table `users`
 --
@@ -133,3 +145,10 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2016-11-21 20:57:13
+
+GRANT SELECT, INSERT, UPDATE ON `sprusage`.`reports` TO 'sprusage'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON `sprusage`.`app_launch_reports` TO 'sprusage'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON `sprusage`.`app_usage_reports` TO 'sprusage'@'localhost;
+GRANT SELECT ON `sprusage`.`users` TO 'sprusage'@'localhost';
+GRANT SELECT ON `sprusage`.`audio` TO 'sprusage'@'localhost';
+

@@ -11,7 +11,10 @@
 
   if($_GET['type'] == 'launch') {
     $udid = mysqli_real_escape_string($db, $params['udid']);
-    $date = mysqli_real_escape_string($db, parse_date($params['date']));
+
+    // Use local time and date
+    //$date = mysqli_real_escape_string($db, parse_date($params['date']));
+    //$time = mysqli_real_escape_string($db, $params['time']);
 
     $appVersion = intval($params['appVersion']);
     $device = mysqli_real_escape_string($db, $params['device']);
@@ -25,19 +28,22 @@
     $sdkint = intval($params['sdkint']);
 
     $result = mysqli_query($db, "INSERT INTO `app_launch_reports`
-      (`udid`, `date`, `appVersion`, `device`, `locale`, `lversion`, `manuf`, `model`, `product`, `screenDensityH`, `screenDensityW`, `sdkint`)
+      (`udid`, `date`, `time`, `appVersion`, `device`, `locale`, `lversion`, `manuf`, `model`, `product`, `screenDensityH`, `screenDensityW`, `sdkint`)
         VALUES
-      ('$udid', '$date', '$appVersion', '$device', '$locale', '$lversion', '$manuf', '$model', '$product', '$screenDensityH', '$screenDensityW', '$sdkint')
+      ('$udid', now(), now(), '$appVersion', '$device', '$locale', '$lversion', '$manuf', '$model', '$product', '$screenDensityH', '$screenDensityW', '$sdkint')
     ");
   } elseif($_GET['type'] == 'usage') {
     $udid = mysqli_real_escape_string($db, $params['udid']);
-    $date = mysqli_real_escape_string($db, parse_date( $params['date']));
     $activity = mysqli_real_escape_string($db, $params['activity']);
 
+    // Use local clock
+    //$date = mysqli_real_escape_string($db, parse_date( $params['date']));
+    //$time = mysqli_real_escape_string($db, $params['time']);
+
     $result = mysqli_query($db, "INSERT INTO `app_usage_reports`
-      (`udid`, `date`, `activity`)
+      (`udid`, `date`, `time`, `activity`)
         VALUES
-      ('$udid', '$date', '$activity')
+      ('$udid', now(), now(), '$activity')
     ");
   } else {
     reply(500, "<em>type</em> parameter must be either launch or usage");

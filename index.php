@@ -8,17 +8,20 @@
   require_once('header.php');
 
   if(isset($_GET['msg'])) {
-    print "<p style='color: red; font-weight: bold;'>" . htmlentities($_GET['msg']) . "</p>";
+    print '<div class="alert alert-success">' . htmlentities($_GET['msg']) . '</div>';
   }
 ?>
 
-<p>Welcome to the the 'Sprusage' usage monitor!</p>
+<div class="container">
+  <div class="row">
+    <div class="h2 col-xs-12 text-center col-centered">What would you like to do today?</div>
+  </div>
+  <div class="row col-xs-6 col-xs-offset-3">
+    <div class="list-group text-center">
+      <a href="/query.php" class="btn btn-primary btn-lg active btn-block" role="button">Query Data</a>
+      <a href="/view.php" class="btn btn-primary btn-lg active btn-block" role="button">View a Previous Query</a>
+    </div>
+  </div>
+</div>
 
-<p>What would you like to do today?</p>
-
-<ul>
-  <li><a href='query.php'>Query data</a></li>
-  <li><a href='view.php'>View a previous query</a></li>
-  <li><a href='logout.php'>Log out</a></li>
-</ul>
 <?php require_once('footer.php'); ?>

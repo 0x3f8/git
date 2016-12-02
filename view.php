@@ -7,46 +7,18 @@
 
   require_once('header.php');
 
-  function format_sql($rows) {
-    if(sizeof($rows) == 0) {
-      return 'No results!';
-    }
-
-    $out = '';
-
-    /* Print headers */
-    $headers = array_keys($rows[0]);
-    foreach($headers as $header) {
-      $out .= str_pad($header, 15) . ' ';
-    }
-    $out .= "\n";
-    foreach($headers as $header) {
-      $divider = str_repeat('-', strlen($header));
-      $out .= str_pad($divider, 15) . ' ';
-    }
-    $out .= "\n";
-
-    /* Print rows */
-    foreach($rows as $row) {
-      foreach($headers as $header) {
-        $out .= str_pad($row[$header], 15) . ' ';
-      }
-      $out .= "\n";
-    }
-
-    return $out;
-  }
-
-  if(!isset($_GET['id'])) {
-?>
-    <form>
-      <p>ID (should be a 36-digit UUID): <input type='text' name='id'></p>
-      <p><input type='submit' value='View!' /></p>
-    </form>
+?> 
+  <form class="form-inline">
+    <div class="form-group">
+      <label for="id" class="h3">Query UUID</label>
+      <input type="text" class="form-control input-lg" style="width: 40rem" id="id" name="id" placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">
+      <button type="submit" class="btn btn-primary">View</button>
+    </div>
+  </form>
+  <br/>
 <?php
-  }
-  else
-  {
+
+  if(isset($_GET['id'])) {
     $result = mysqli_query($db, "SELECT * FROM `reports` WHERE `id`='" . mysqli_real_escape_string($db, $_GET['id']) . "' LIMIT 0, 1");
     if(!$result) {
       reply(500, "MySQL Error: " . mysqli_error($db));
@@ -59,26 +31,36 @@
       die();
     }
 ?>
+  <!--
   <ul>
     <li>ID: <?= htmlentities($row['id']); ?></li>
     <li>Name: <?= htmlentities($row['name']); ?></li>
     <li>Description: <?= htmlentities($row['description']); ?></li>
   </ul>
+  -->
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Details</h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-2 col-sm-2 text-muted text-right">ID</div>
+        <div class="col-xs-8 col-sm-9"><?= htmlentities($row['id']); ?></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-2 col-sm-2 text-muted text-right">Name</div>
+        <div class="col-xs-8 col-sm-9"><?= htmlentities($row['name']); ?></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-2 col-sm-2 text-muted text-right">Details</div>
+        <div class="col-xs-8 col-sm-9"><?= htmlentities($row['description']); ?></div>
+      </div>
+    </div>
+  </div>
 
-  <p>Output:</p>
-  <hr />
-  <pre>
-  Query: <?= $row['query'] ?>
-
-
-<?php
-    $out = format_sql(query($db, $row['query']));
-    print $out;
-?>
-  </pre>
-  <hr />
-<?php
+  <?php
+    format_sql(query($db, $row['query']));
   }
+require_once('footer.php'); 
 ?>
-<?php require_once('footer.php'); ?>
 

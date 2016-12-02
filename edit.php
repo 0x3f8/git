@@ -10,13 +10,33 @@
 
   if(!isset($_GET['id'])) {
 ?>
-    <p>WARNING: This is experimental!</p>
-    <form>
-      <p>ID: <input type='text' name='id'></p>
-      <p>Name: <input type='text' name='name'></p>
-      <p>Description: <input type='text' name='description'></p>
-      <p><input type='submit' value='Edit!' /></p>
+    <div class="alert alert-warning"><strong>Warning!</strong> This is experimental.</div>
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="id" class="col-sm-2 control-label">ID</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" name="id" id="id" placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" name="name" id="name" placeholder="New Name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description" class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" name="description" id="description" placeholder="New Description">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+          <button type="submit" class="btn btn-default">Edit</button>
+        </div>
+      </div>
     </form>
+
 <?php
   }
   else

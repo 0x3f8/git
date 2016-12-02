@@ -18,13 +18,13 @@
   }
 
   function restrict_page_to_users($db, $users) {
-    if(!isset($_COOKIE['AUTH'])) {
+    $username = get_username();
+
+    if(!$username) {
       header('Location: login.php');
       exit(0);
     }
 
-    $auth = json_decode(decrypt(pack("H*",$_COOKIE['AUTH'])), true);
-
-    check_access($db, $auth['username'], $users);
+    check_access($db, $username, $users);
   }
 ?>
